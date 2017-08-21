@@ -22,6 +22,7 @@ class AuthorScraper():
         name (str): "<Author's first name> <Author's last name>"
         url (str): Author's homepage on the East Bay News website.
         main_soup(BeautifulSoup): A BeautifulSoup object of the author's page.
+        article_links (list): A list of URLs for all of this author's articles.
 
     """
 
