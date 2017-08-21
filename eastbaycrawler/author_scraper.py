@@ -39,6 +39,7 @@ class AuthorScraper():
         base_url += author_first_name + "-" + author_last_name + "/"
         self.url = base_url
         self.main_soup = make_soup(self.url)
+        self.article_links = self.get_articles_by_author()
 
     def get_articles_by_author(self):
         """
