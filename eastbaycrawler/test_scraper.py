@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from author_scraper import AuthorScraper
+from scraper_tools import make_soup, get_authors
 
 
 def main():
@@ -11,10 +12,7 @@ def main():
     """
     author_name = "Aaron Davis"
     ad_scraper = AuthorScraper(author_name)
-
-    links_on_page = ad_scraper.get_all_article_links()
-    for link in links_on_page:
-        page_soup =
+    print(len(ad_scraper.get_articles_by_author()))
 
 
 if __name__ == "__main__":

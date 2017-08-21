@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-import requests
-from bs4 import BeautifulSoup
+from scraper_tools import make_soup, get_authors, get_all_article_links
 
 """Author scraper for East Bay News.
 
@@ -39,48 +38,21 @@ class AuthorScraper():
         base_url = "http://www.eastbaytimes.com/author/"
         base_url += author_first_name + "-" + author_last_name + "/"
         self.url = base_url
-        self.main_soup = self.make_soup(self.url)
+        self.main_soup = make_soup(self.url)
 
-    def make_soup(self, url):
+    def get_articles_by_author(self):
         """
-        Creates a BeautifulSoup object from the given URL.
-
-        Args:
-            url (str): URL we want a Soup object for.
+        Fetches a list of links to articles by this author.
 
         Returns:
-            A BeautifulSoup HTML-parsed object.
+            A list of URLs for articles by this author only.
 
         """
-        page = requests.get(url)
-        return BeautifulSoup(page.content, 'html.parser')
-
-    def get_all_article_links(self):
-        """
-        Gets all of the article links on a given page, author or not.
-
-        Args:
-            None
-
-        Returns:
-            A list of all article links on the Beautiful soup page.
-
-        """
-        links = [h.get('href') for h in
-                 self.main_soup.find_all('a', class_="article-title")]
-        return links
-
-    def get_author(self):
-        """
-        Finds the author of an East Bay News article page.
-
-        Args:
-            None
-
-        Returns:
-            A string which is the author's name.
-
-        """
-        all_titles = self.main_soup.find_all(class_="article-title")
-        for title in all_titles:
-            print(title)
+        all_articles_on_author_page = get_all_article_links(self.main_soup)
+        links_to_author_articles = []
+        for link in all_articles_on_author_page:
+            link_soup = make_soup(link)
+            author_list = get_authors(link_soup)
+            if self.name in author_list:
+                links_to_author_articles.append(link)
+        return links_to_author_articles
