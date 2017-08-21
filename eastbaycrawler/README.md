@@ -7,3 +7,4 @@ A crawler for the East Bay Times new website.  Relies on various files:
 
 TODO: 
 * Fix twitter bot.
+* Change twitter bot to read in author name from a YAML which also contains the article list.
