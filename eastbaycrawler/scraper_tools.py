@@ -12,6 +12,7 @@ deciding on final formats for all that stuff.
 __author__ = "Daniel Hannah"
 __email__ = "dansseriousbusiness@gmail.com"
 
+
 def make_soup(url):
     """
     Makes a BeautifulSoup object out of a page pulled from a URL.
@@ -40,6 +41,7 @@ def get_all_article_links(soup):
     """
     return [h.get('href') for h in soup.find_all('a', class_="article-title")]
 
+
 def get_authors(soup):
     """
     Gets the author(s) of a page that has been into a soup.
@@ -61,3 +63,16 @@ def get_authors(soup):
         list_of_authors.append(authorname)
     return list_of_authors
 
+
+def get_article_title(soup):
+    """
+    Gets the title of an article from it's Soup.
+
+    Args:
+        soup (BeautifulSoup): A Beautifully-souped HTML page.
+
+    Returns:
+        A string, which is the title of the article.
+
+    """
+    return soup.find('title').string

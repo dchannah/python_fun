@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from scraper_tools import make_soup, get_authors, get_all_article_links
+from scraper_tools import get_article_title
 
 """Author scraper for East Bay News.
 
-This class implements functionality to pull information about a particular
-author's page on the Easy Bay News website. Right now, we are focused on 
-providing a list of all articles created by that particular author, but other 
-functionality will be added in the future.
+This class implements classes which collate information about authors and
+articles on the East Bay News website. It primarily relies on tools implemented
+in scraper tools.
 
 """
 
@@ -53,8 +53,37 @@ class AuthorScraper():
         all_articles_on_author_page = get_all_article_links(self.main_soup)
         links_to_author_articles = []
         for link in all_articles_on_author_page:
-            link_soup = make_soup(link)
-            author_list = get_authors(link_soup)
-            if self.name in author_list:
+            scraper = ArticleScraper(link)
+            if self.name in scraper.authors:
                 links_to_author_articles.append(link)
         return links_to_author_articles
+
+
+class ArticleScraper():
+    """
+    This class, implemented for a particular page, gets information about the
+    title, URL, and author about a given article.
+
+    Attributes:
+        title (str): The title of the article.
+        url (str): The URL of the article.
+        soup (BeautifulSoup): A BeautifulSoup object of the article's page.
+        authors (list): A list of the article's authors.
+    """
+
+    def __init__(self, url):
+        """
+        Initializes the ArticleScraper.
+
+        Args:
+            url (str): A link to the article's webpage.
+
+        Returns:
+            None
+
+        """
+        self.url = url
+        self.soup = make_soup(url)
+        self.title = get_article_title(self.soup)
+        self.authors = get_authors(self.soup)
+
