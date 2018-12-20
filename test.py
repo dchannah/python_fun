@@ -1,1 +1,1 @@
-print("Hello father")
+print("Hello brother")
